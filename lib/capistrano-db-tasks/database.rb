@@ -40,7 +40,7 @@ module Database
       if mysql?
         "mysqldump #{credentials} #{database} --lock-tables=false"
       elsif postgresql?
-        "pg_dump #{credentials} -c -O #{database}"
+        "pg_dump #{credentials} --no-acl -c -O #{database}"
       end
     end
 
@@ -48,7 +48,9 @@ module Database
       if mysql?
         "mysql #{credentials} -D #{database} < #{file}"
       elsif postgresql?
-        "psql #{credentials} #{database} < #{file}"
+        x = "psql -q #{credentials} #{database} < #{file}"
+        p x
+        x
       end
     end
 
